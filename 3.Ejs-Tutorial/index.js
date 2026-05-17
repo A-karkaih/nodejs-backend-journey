@@ -8,7 +8,6 @@ app.set("view engine", "ejs");
 
 //set the directory for the views
 app.set("views", path.join(__dirname, "views"));
-console.log(__dirname);
 
 const products = [
   {
