@@ -1,13 +1,25 @@
 require("dotenv").config();
 const express = require("express");
 const connectToDb = require("./databases/db");
-
+const authRouter = require("./routes/auth-routes");
 const app = express();
 
 const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(express.json());
+
+//routes
+app.use("/api/auth", authRouter);
+
+// error handler (IMPORTANT: before listen)
+const errorHandler = (err, req, res, next) => {
+  console.log(err);
+  return res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message || "Server error",
+  });
+};
 
 // starting the server
 const startServer = async () => {
