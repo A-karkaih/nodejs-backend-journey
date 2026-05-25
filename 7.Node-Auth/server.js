@@ -24,6 +24,9 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
+// register error middleware
+app.use(errorHandler);
+
 // starting the server
 const startServer = async () => {
   try {
