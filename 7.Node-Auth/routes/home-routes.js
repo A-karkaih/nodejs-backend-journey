@@ -4,7 +4,7 @@ const protectMiddleware = require("../middlewares/auth-middleware");
 
 router.get("/welcome", protectMiddleware, (req, res) => {
   const { username, userId, role } = req.userInfo;
-  req.res.status(200).json({
+  return req.res.status(200).json({
     message: "Welcome to the home page",
     user: {
       _id: userId,
