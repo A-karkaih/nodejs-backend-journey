@@ -2,12 +2,14 @@ const cloudinary = require("../config/cloudinary");
 
 const uploadToCloudinary = async (filePath) => {
   try {
-    const result = await cloudinary.uploader.upload(filePath);
+    const result = await cloudinary.uploader.upload(filePath , {
+      folder : 'uploads/'
+    });
     return { url: result.secure_url, publicId: result.public_id };
   } catch (error) {
     console.log("Error while uploading to cloudinary", error);
 
-    throw new Error("Error while uploading to cloudinary");
+    throw error;
   }
 };
 

@@ -4,7 +4,7 @@ const connectToDb = require("./databases/db");
 const authRouter = require("./routes/auth-routes");
 const homeRouter = require("./routes/home-routes");
 const adminRouter = require("./routes/admin-routes");
-
+const imageRouter = require("./routes/image-routes");
 const app = express();
 
 const PORT = process.env.PORT || 8000;
@@ -16,6 +16,7 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/home", homeRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/image", imageRouter);
 
 // error handler (IMPORTANT: before listen)
 const errorHandler = (err, req, res, next) => {
