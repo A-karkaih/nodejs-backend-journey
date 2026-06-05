@@ -40,20 +40,37 @@ const uploadImage = async (req, res, next) => {
 
 const fetchAllImages = async (req, res, next) => {
   try {
-    const images = await Image.find({});
-    if (images) {
-      return res.status(200).json({
-        success: true,
-        data: images,
-      });
-    }
-  } catch (error) {
-    console.log("Error in fetching all images");
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
 
+    const sortBy = req.query.sortBy || "createdAt";
+    const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
+
+    const totaleImages = await Image.countDocuments();
+    const totalPages = Math.ceil(totaleImages / limit);
+
+    const sortObj = {};
+    sortObj[sortBy] = sortOrder;
+
+    const images = await Image.find()
+      .sort(sortObj)
+      .skip(skip)
+      .limit(limit);
+
+    return res.status(200).json({
+      success: true,
+      data: images,
+      currentPage: page,
+      totalPages,
+      totaleImages,
+    });
+
+  } catch (error) {
+    console.log("Error in fetching all images", error);
     next(error);
   }
 };
-
 //delete image controller
 
 const deleteImageController = async (req, res, next) => {
